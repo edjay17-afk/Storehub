@@ -1,5 +1,12 @@
 # Centro Warehouse System
 
+## Private cloud deployment
+
+For a private Netlify site backed by a Render Python service and persistent
+SQLite storage, follow [the deployment guide](deploy/README.md). The Netlify
+project must remain private because the warehouse app does not have its own
+user login. The local `data/` directory is never part of the Git deploy.
+
 ## Setting up a GitHub checkout
 
 The repository contains the application, tests and header-only CSV examples. Merchant CSVs, databases, credentials, screenshots, logs and temporary scanner URLs stay on the local computer and are excluded from Git.

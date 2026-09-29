@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: centro-warehouse-api
+    runtime: python
+    region: singapore
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --workers 1 --threads 4 --bind 0.0.0.0:$PORT app:app
+    healthCheckPath: /healthz
+    disk:
+      name: warehouse-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 2
+    envVars:
+      - key: WAREHOUSE_DEPLOY_MODE
+        value: '1'
+      - key: REQUIRE_NETLIFY_PROXY
+        value: '1'
+      - key: NETLIFY_PROXY_SECRET
+        sync: false
+      - key: NETLIFY_SITE_ID
+        sync: false
+      - key: STOREHUB_USERNAME
+        sync: false
+      - key: STOREHUB_API_TOKEN
+        sync: false

@@ -10,6 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 from flask import Flask, jsonify, render_template, request, Response
+from deployment_auth import valid_netlify_signature
 import storehub
 import stock_transfers
 import partner_api
@@ -21,6 +22,12 @@ import manual_inventory
 ROOT = Path(__file__).resolve().parent
 app = Flask(__name__)
 app.config['DATABASE'] = os.environ.get('WAREHOUSE_DB', str(ROOT / 'data' / 'warehouse.db'))
+DEPLOY_MODE = os.environ.get('WAREHOUSE_DEPLOY_MODE') == '1'
+REQUIRE_NETLIFY_PROXY = os.environ.get('REQUIRE_NETLIFY_PROXY') == '1'
+NETLIFY_PROXY_SECRET = os.environ.get('NETLIFY_PROXY_SECRET', '')
+NETLIFY_SITE_ID = os.environ.get('NETLIFY_SITE_ID', '')
+if REQUIRE_NETLIFY_PROXY and (not NETLIFY_PROXY_SECRET or not NETLIFY_SITE_ID):
+    raise RuntimeError('Netlify proxy signing secret and site ID must be configured.')
 WAREHOUSE = 'TheDailyCentro Warehouse'
 REMOVED_STORES = {'688'}
 
@@ -109,6 +116,23 @@ def change_stock(db, pid, location, quantity, reason, absolute=False):
 @app.errorhandler(ValueError)
 def invalid(error):
     return jsonify(error=str(error)), 400
+
+
+@app.get('/healthz')
+def healthz():
+    return jsonify(running=True, data_ready=Path(app.config['DATABASE']).is_file())
+
+
+@app.before_request
+def require_deployment_access():
+    if request.path == '/healthz':
+        return None
+    if REQUIRE_NETLIFY_PROXY and not valid_netlify_signature(
+            request.headers.get('x-nf-sign'), NETLIFY_PROXY_SECRET, NETLIFY_SITE_ID):
+        return jsonify(error='Access through the private Netlify site.'), 403
+    if DEPLOY_MODE and not Path(app.config['DATABASE']).is_file():
+        return jsonify(error='Warehouse data has not been restored on this server.'), 503
+    return None
 
 
 @app.route('/')
@@ -384,7 +408,11 @@ wastage_records = wastage.Wastage(app, connection, config, WAREHOUSE)
 wastage_csv = wastage_imports.WastageImports(app, connection, config, WAREHOUSE)
 inventory_records = manual_inventory.ManualInventory(app, connection, config)
 notifications.register(app, connection, integration)
-initialize()
-if __name__ == '__main__':
+if not DEPLOY_MODE or Path(app.config['DATABASE']).is_file():
+    initialize()
+if DEPLOY_MODE and Path(app.config['DATABASE']).is_file():
     integration.start_scheduler()
+if __name__ == '__main__':
+    if not DEPLOY_MODE:
+        integration.start_scheduler()
     app.run(host=os.environ.get('WAREHOUSE_HOST', '127.0.0.1'), port=5077, debug=False)

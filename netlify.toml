@@ -1,0 +1,10 @@
+[build]
+  publish = "netlify-public"
+
+# Replace the .invalid host with the Render HTTPS hostname before using the site.
+[[redirects]]
+  from = "/*"
+  to = "https://replace-with-render-host.invalid/:splat"
+  status = 200
+  force = true
+  signed = "NETLIFY_PROXY_SECRET"

@@ -1,0 +1,23 @@
+/* Phone navigation and dialogs. Product fields remain visible in the cards. */
+.mobile-dialog-close{display:none}
+
+@media(max-width:700px){
+  body{overflow-x:hidden}
+  main{padding-bottom:calc(102px + env(safe-area-inset-bottom))}
+  .mobile-brand{margin-bottom:18px}
+  nav button,nav button:last-child{min-height:62px}
+  nav button.active{font-weight:700}
+
+  dialog[open]{position:fixed;inset:auto 0 0;width:100%;max-width:100%;max-height:calc(92dvh - env(safe-area-inset-top));margin:0;border-radius:20px 20px 0 0;padding:24px 18px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -12px 40px #13281f26;overscroll-behavior:contain}
+  dialog h2{padding-right:48px;line-height:1.25}
+  .mobile-dialog-heading{position:sticky;top:-24px;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;margin:-24px -18px 16px;padding:16px 18px;background:#fff;border-bottom:1px solid #e5ebe5}
+  .mobile-dialog-heading h2{margin:0;padding:0}
+  .mobile-dialog-close{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:0;font-size:26px;line-height:1;border-radius:10px}
+  dialog .form-footer{padding-bottom:2px}
+  .po-detail .form-footer{flex-wrap:wrap}
+}
+
+@media(max-width:360px){
+  .mobile-brand{font-size:16px}
+  nav button,nav button:last-child{font-size:9px;gap:4px}
+}
