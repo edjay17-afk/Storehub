@@ -1,11 +1,11 @@
 # Centro Warehouse System
 
-## Private cloud deployment
+## Private remote access
 
-For a private Netlify site backed by a Render Python service and persistent
-SQLite storage, follow [the deployment guide](deploy/README.md). The Netlify
-project must remain private because the warehouse app does not have its own
-user login. The local `data/` directory is never part of the Git deploy.
+For the free Netlify + ngrok setup that keeps the database on this PC, follow
+[the deployment guide](deploy/README.md). The PC and tunnel must stay running.
+The Netlify project must remain private because the warehouse app does not
+have its own user login. The local `data/` directory is never part of Git.
 
 ## Setting up a GitHub checkout
 
