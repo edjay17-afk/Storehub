@@ -1,0 +1,20 @@
+button,a,input,select,textarea{transition:background-color 160ms ease,border-color 160ms ease,box-shadow 160ms ease,color 160ms ease}
+button:active:not(:disabled),.exportbar a:active,.po-download:active{transform:scale(.97)}
+button:focus-visible,a:focus-visible{outline:2px solid #47846c;outline-offset:3px}
+.view:not(.hidden)>.card,.view:not(.hidden) .po-order{animation:ui-card-enter 240ms ease-out both}
+.view:not(.hidden)>.card:nth-child(2){animation-delay:35ms}.view:not(.hidden)>.card:nth-child(3){animation-delay:65ms}
+dialog[open]{animation:ui-dialog-enter 220ms cubic-bezier(.2,.7,.3,1)}dialog[open]::backdrop{animation:ui-backdrop-enter 180ms ease-out}
+[data-waste-step]:not([hidden]){animation:ui-card-enter 180ms ease-out}
+.table-wrap tbody tr:nth-child(-n+12){animation:ui-row-enter 180ms ease-out both}.table-wrap tbody tr:nth-child(2){animation-delay:12ms}.table-wrap tbody tr:nth-child(3){animation-delay:24ms}
+@keyframes ui-card-enter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes ui-row-enter{from{opacity:.3}to{opacity:1}}
+@keyframes ui-dialog-enter{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes ui-backdrop-enter{from{opacity:0}to{opacity:1}}
+.ui-loading{position:relative;min-height:180px}
+.ui-loading>:not(.ui-loading-placeholder){pointer-events:none}
+.ui-loading-placeholder{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;justify-content:center;gap:16px;padding:24px;background:rgba(248,250,247,.97);border-radius:9px;pointer-events:none}
+.ui-loading-label{font-size:12px;color:#557665;letter-spacing:.2px}.ui-skeleton{height:17px;width:92%;border-radius:5px;background:linear-gradient(100deg,#e5ece5 20%,#f5f8f3 45%,#e5ece5 70%);background-size:220% 100%;animation:ui-shimmer 1.3s linear infinite}.ui-skeleton:nth-last-child(2){width:75%}.ui-skeleton:last-child{width:84%}
+@keyframes ui-shimmer{from{background-position:180% 0}to{background-position:-40% 0}}
+#document-list>.card,#po-list>.card,#st-list>.card{content-visibility:auto;contain-intrinsic-size:auto 250px}
+@media(hover:hover){.stat{transition:box-shadow 180ms ease}.stat:hover{box-shadow:0 4px 14px #183d330b}button:not(:disabled):hover{box-shadow:0 2px 7px #183d3310}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}button:active:not(:disabled),.exportbar a:active,.po-download:active{transform:none}}

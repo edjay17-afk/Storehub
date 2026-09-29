@@ -1,0 +1,35 @@
+<section id="wastage" class="view hidden">
+<div class="card"><div class="sh-heading"><div><p class="eyebrow">BRANCH RECORDS</p><h2>Wastage records</h2><p>Track wasted products, quantities and photos by branch.</p></div><button id="waste-new" type="button" class="primary">+ Record wastage</button></div><p id="waste-page-feedback" role="status" aria-live="polite"></p></div>
+{% include 'wastage-import.html' %}
+<div class="card" id="waste-history"><div class="sh-heading"><h2>History</h2><div class="waste-record-actions"><span id="waste-count" class="note"></span><button id="waste-trash-toggle" type="button">Deleted records</button></div></div>
+<form id="waste-filter-form"><div class="waste-filter-grid"><label>Date<input id="waste-filter-date" type="date"></label><label>Branch<select id="waste-filter-branch"><option value="">All branches</option></select></label><label>Product<input id="waste-filter-search" type="search" placeholder="Product name or SKU"></label><button type="submit">Search records</button><button id="waste-filter-clear" type="button">Clear</button></div></form>
+<p id="waste-list-feedback" role="status"></p><div class="table-wrap"><table><thead><tr><th>Date</th><th>Branch</th><th>Product</th><th class="num">Wasted quantity</th><th>Photo</th><th></th></tr></thead><tbody id="waste-records"></tbody></table></div>
+<div class="pagination"><button id="waste-prev" type="button" aria-label="Previous wastage page">&#8249;</button><span id="waste-page" aria-live="polite"></span><button id="waste-next" type="button" aria-label="Next wastage page">&#8250;</button></div>
+</div></section>
+
+<dialog id="waste-entry-dialog" aria-labelledby="waste-form-title">
+<div class="waste-wizard-heading"><div><p class="eyebrow">WASTAGE RECORD</p><h2 id="waste-form-title">Record wastage</h2></div><button id="waste-modal-close" type="button" aria-label="Close wastage form">&#10005;</button></div>
+<ol id="waste-progress" class="waste-progress" aria-label="Wastage steps"><li><span>1</span>Date &amp; branch</li><li><span>2</span>Product</li><li><span>3</span>Details</li><li><span>4</span>Review</li></ol>
+<p id="waste-step-caption" class="note" aria-live="polite">Step 1 of 4</p><p id="waste-edit-note" class="note" hidden></p>
+<form id="waste-form" novalidate>
+<div class="waste-wizard-body">
+<fieldset id="waste-date-step" class="waste-step" data-waste-step="0"><legend><span>1</span> Date &amp; branch</legend><div class="form-grid">
+<label>Wastage date<input id="waste-date" name="waste_date" type="date" required></label>
+<label>Store branch<select id="waste-branch" name="branch" required><option value="">Choose a branch</option></select></label>
+</div></fieldset>
+<fieldset id="waste-product-step" class="waste-step" data-waste-step="1" hidden><legend><span>2</span> Choose a product</legend>
+<label class="waste-search-label">Search products<input id="waste-search" type="search" aria-label="Search products" placeholder="Search name, SKU or barcode" autocomplete="off"><div id="waste-options" class="suggestions"></div></label>
+<div id="waste-selected" class="waste-selected hidden"></div><p id="waste-search-note" class="note">Select a date and branch to begin.</p>
+</fieldset>
+<fieldset id="waste-detail-step" class="waste-step" data-waste-step="2" hidden><legend><span>3</span> Quantity &amp; photo</legend>
+<div class="form-grid"><label>Wasted quantity<input id="waste-quantity" name="quantity" type="number" min="0.000001" max="1000000000" step="any" required placeholder="Quantity in the product's base unit"></label><label>Notes (optional)<textarea id="waste-notes" name="notes" rows="2" maxlength="2000" placeholder="Damage, expiry or other details"></textarea></label></div>
+<div class="waste-photo-actions"><button id="waste-upload" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15v6h16v-6M12 16V3m-5 5 5-5 5 5"/></svg>Upload photo</button><button id="waste-capture" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h4l2-3h6l2 3h4v13H3V7Z"/><circle cx="12" cy="13" r="4"/></svg>Take photo</button><button id="waste-remove-photo" type="button" hidden>Remove photo</button></div>
+<input id="waste-file" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+<input id="waste-camera-file" type="file" accept="image/*" capture="environment" hidden>
+<p class="note">Photo is optional. JPEG, PNG or WebP, up to 10 MB. Take photo opens your phone's camera.</p><img id="waste-photo-preview" class="waste-photo-preview" alt="Selected wastage photo" hidden>
+</fieldset>
+<section id="waste-review-step" data-waste-step="3" hidden><h3>Review wastage</h3><div id="waste-review-summary"></div><p class="note">Saving records wastage only. Stock balances stay unchanged.</p></section>
+<p id="waste-feedback" role="status" aria-live="polite"></p></div>
+<div class="waste-wizard-footer"><button id="waste-edit-cancel" type="button">Cancel</button><div><button id="waste-back" type="button" hidden>Back</button><button id="waste-next-step" type="button" class="primary">Next</button><button id="waste-save" class="primary" hidden disabled>Save wastage record</button></div></div>
+</form>
+</dialog>
