@@ -4,7 +4,7 @@
 # Replace the .invalid host with your assigned ngrok HTTPS hostname before deploying.
 [[redirects]]
   from = "/*"
-  to = "https://replace-with-ngrok-host.invalid/:splat"
+  to = "https://courier-cacti-undecided.ngrok-free.dev/:splat"
   status = 200
   force = true
   signed = "NETLIFY_PROXY_SECRET"
